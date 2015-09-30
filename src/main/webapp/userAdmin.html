@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html ng-app="spring-totp" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="webjars/angularjs/1.3.11/angular.min.js"></script>
+    <script type="text/javascript" src="webjars/angularjs/1.3.11/angular-route.min.js"></script>
+    <script type="text/javascript" src="webjars/angularjs/1.3.11/angular-resource.min.js"></script>
+    <script type="text/javascript" src="webjars/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="userAdmin.js"></script>
+    <script type="text/javascript" src="webjars/bootstrap/3.3.2-1/js/bootstrap.min.js"></script>
+    <title></title>
+</head>
+<body>
+<div ng-controller="UserAdminController as userAdmin">
+    <h1>User details</h1>
+
+    <form class="simple-form">
+
+        <input type="text" id="username" ng-model="userAdmin.user.username"> Username <br/>
+        <input type="password" id="password" ng-model="userAdmin.user.password"> Password <br/>
+        <input type="hidden" id="name" ng-model="userAdmin.userExists">
+
+        <input type="submit" value="Create User" ng-click="userAdmin.createUser()"/>
+    </form>
+
+
+    <div id="qrcode">
+        <img ng-if="userAdmin.userExists" ng-src="{{userAdmin.showQRCode()}}" class="animate-if">
+    </div>
+</div>
+</body>
+</html>

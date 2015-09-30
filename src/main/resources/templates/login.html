@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>TOTP Spring</title>
+
+<style>
+
+th {
+	text-align: left
+}
+
+.errormsg {
+    color: red;
+    font-weight: bold;
+}
+</style>
+<style>
+    body.totpLogin{
+        background: linear-gradient(rgb(253, 253, 253), rgb(250, 250, 250));
+    }
+    .totpLogin *{
+        font-family: Verdana, Arial, sans-serif;
+    }
+    #documentation{
+        font-size:13px;
+    }
+    .totpLogin #please_login{
+        border-bottom:1px solid #c6c6c6;
+        padding:10px;
+        font-weight: bold;
+        background: linear-gradient(rgb(201, 206, 210), rgb(177, 182, 186));
+    }
+    .totpLogin #login_form *{
+        font-size:13.6px !important;
+        font-weight: normal !important;
+    }
+    .totpLogin #fieldset{
+        padding:0;
+        border-radius: 3px;
+        border: 1px solid #C6C6C6;
+        background-color: rgb(241, 241, 241);
+    }
+    .totpLogin #login_form{
+        padding:10px;
+    }
+    .totpLogin #fieldset_contents{
+        width:350px;
+        margin-left:auto;
+        margin-right:auto;
+    }
+    .totpLogin td{
+        padding-top:10px;
+        padding-bottom: 15px;
+    }
+    .totpLogin input[type="text"], .totpLogin input[type="password"]{
+        margin-left: 30px;
+    }
+    .totpLogin #t_logo{
+        width: 45px;
+        position: absolute;
+        right:15px;
+        top: 8px;
+    }
+    .totpLogin #submit{
+        position: relative;
+        margin-left:auto;
+        margin-right:auto;
+        width:100px;
+    }
+</style>
+</head>
+
+<body class="totpLogin" onload="document.loginForm.username.focus();">
+	<h2>Login this App</h2>
+    <form name="loginForm" th:action="@{/login}" action="/login" method="POST">
+		<!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+		
+		<div id="fieldset">
+
+            <div id="please_login">Please Login</div>
+            <div id="login_form">
+                <div id="fieldset_contents">
+                    <p th:if="${param.logout}">You have been logged out</p>
+                    <p th:if="${param.error}" class="errormsg">There was an error, please try again</p>
+
+                    <table>
+                        <tr>
+                            <td><label for="username">Username</label></td>
+                            <td><input type="text" id="username" name="username" /></td>
+                        </tr>
+                        <tr>
+                            <td><label for="password">Password</label></td>
+                            <td><input type="password" id="password" name="password" /></td>
+                        </tr>
+                        <tr>
+                            <td><label for="totpkey">Authenticator Code</label></td>
+                            <td><input type="text" id="TOTPKey" name="TOTPKey" /></td>
+                        </tr>
+                    </table>
+
+                </div>
+                <div id="submit"><button type="submit">Log in</button></div>
+            </div>
+        </div>
+	</form>
+</body>
+</html>

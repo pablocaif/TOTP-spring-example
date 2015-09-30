@@ -1,0 +1,107 @@
+group 'au.com.totp.example'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    repositories {
+        maven { url "https://repo.spring.io/libs-release" }
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.10.RELEASE")
+        classpath 'com.eriwen:gradle-js-plugin:1.12.1'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+apply plugin: 'war'
+
+jar {
+    baseName = 'au.com.totp.example.SpringBootTotp'
+    version =  '0.0.1'
+}
+
+
+repositories{
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+    maven { url "https://repo.spring.io/libs-release" }
+}
+
+
+
+dependencies{
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    compile("org.springframework.boot:spring-boot-starter-security")
+    //compile("org.springframework.boot:spring-boot-starter-aop")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa") {
+        exclude group : "xml-apis", module : "xml-apis"
+    }
+    compile("org.hibernate:hibernate-validator")
+    compile('mysql:mysql-connector-java:5.1.6')
+    compile ('org.apache.commons:commons-lang3:3.3.2')
+    compile('commons-codec:commons-codec:1.6')
+    compile('com.google.zxing:javase:3.2.1')
+
+    //Webjars
+    compile ('org.webjars:angularjs:1.3.11')
+    compile ('org.webjars:bootstrap:3.3.2-1')
+    compile ('org.webjars:jquery:2.1.3')
+
+    runtime("org.springframework.boot:spring-boot-starter-tomcat")
+
+    //Test dependencies
+    testCompile('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.mockito'
+        exclude group: 'org.hamcrest'
+    }
+    testCompile('org.testng:testng:6.8.17')
+    testCompile('org.mockito:mockito-core:1.10.19')
+    testCompile('org.uncommons:reportng:1.1.4')
+    testCompile('com.google.inject:guice:3.0')
+    testCompile('org.hamcrest:hamcrest-core:1.3')
+    testCompile('org.hamcrest:hamcrest-library:1.3')
+    testCompile('com.h2database:h2:1.4.186')
+
+
+}
+
+sourceSets {
+    main {
+        runtimeClasspath = files(output.resourcesDir) + runtimeClasspath
+    }
+    test {
+        runtimeClasspath = files(output.resourcesDir) + runtimeClasspath
+    }
+}
+
+test {
+    useTestNG() {
+        suiteXmlBuilder().suite(name: 'gradle-testng-unit', parallel: 'tests') {
+            Test (name : 'all-tests') {
+                packages {
+                    'package' (name: 'au.com.telstra.*')
+                }
+                includeGroups 'unit'
+            }
+        }
+    }
+    options {
+        listeners << 'org.uncommons.reportng.HTMLReporter'
+        listeners << 'org.uncommons.reportng.JUnitXMLReporter'
+    }
+    ext.useDefaultListeners = true
+    ext.workingDirectory = 'build/'
+}
+
+war.dependsOn(test)
+
+war {
+    baseName="$warName"
+}
