@@ -10,14 +10,14 @@
     <script type="text/javascript" src="webjars/bootstrap/3.3.2-1/js/bootstrap.min.js"></script>
     <title></title>
 </head>
-<body>
+<body align="center">
 <div ng-controller="UserAdminController as userAdmin">
     <h1>User details</h1>
 
     <form class="simple-form">
 
-        <input type="text" id="username" ng-model="userAdmin.user.username"> Username <br/>
-        <input type="password" id="password" ng-model="userAdmin.user.password"> Password <br/>
+        <label>Username</label> <input type="text" id="username" ng-model="userAdmin.user.username"> <br/>
+        <label>Password</label><input type="password" id="password" ng-model="userAdmin.user.password"> <br/>
         <input type="hidden" id="name" ng-model="userAdmin.userExists">
 
         <input type="submit" value="Create User" ng-click="userAdmin.createUser()"/>
