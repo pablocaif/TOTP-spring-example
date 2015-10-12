@@ -3,7 +3,7 @@ A simple example project with a bit of Angular-js and Spring that shows how to i
 
 There is also an example of how to create users and generate secrets for TOTP
 
-##Requirements## 
+##Requirements##
 
 * Java 8
 * MySql Database
